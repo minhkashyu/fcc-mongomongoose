@@ -18,7 +18,7 @@ const createAndSavePerson = (done) => {
   let personDocument = new Person({
     name: "John Doe",
     age: 18,
-    favoriteFoods: ["Chicken nuggets", "Hamburger"]
+    favoriteFoods: ["chicken nuggets", "chips"]
   })
 
   personDocument.save()
@@ -77,7 +77,20 @@ const findPersonById = (personId, done) => {
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
 
-  done(null /*, data*/);
+  findPersonById(personId, (err, person) => {
+    if (err) {
+      return done(err);
+    }
+
+    person.favoriteFoods.push(foodToAdd);
+    person.save((err, data) => {
+      if (err) {
+        return done(err);
+      }
+
+      done(null, data);
+    });
+  });
 };
 
 const findAndUpdate = (personName, done) => {
