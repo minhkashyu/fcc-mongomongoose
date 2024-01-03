@@ -96,7 +96,19 @@ const findEditThenSave = (personId, done) => {
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
 
-  done(null /*, data*/);
+  Person.findOneAndUpdate({
+    name: personName
+  }, {
+    age: ageToSet
+  }, {
+    new: true
+  })
+    .then((doc) => {
+      done(null, doc);
+    })
+    .catch((err) => {
+      done(err);
+    });
 };
 
 const removeById = (personId, done) => {
